@@ -1,7 +1,8 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
+import Cart from './components/ShoppingCart.vue'
+import HomeView from './views/HomeView.vue'
 
 
 </script>
@@ -10,7 +11,26 @@ import axios from 'axios'
   export default {
     data() {
       return{
-        showCart: false
+        showCart: false,
+        adultCountObj: { },
+        childCountObj: { },
+      }
+    },
+    methods: {
+      toggleCart()
+      {
+        if(this.showCart)
+        {
+          this.showCart = false;
+        }
+        else{
+          this.showCart = true;
+        }
+      },
+      updateCount(adult, child)
+      {
+        this.adultCountObj = adult;
+        this.childCountObj = child;
       }
     }
   }
@@ -18,14 +38,17 @@ import axios from 'axios'
 <template>
   <header>
     <nav>
-        <RouterLink class="h4" to="/" id="nameLink">Z-Movies</RouterLink>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <button id="cartIcon" class="btn"><img src="./assets/cart.svg" width="35"> </button>
-      </nav>
+        <a class="display-6" id="nameLink">Z-Movies</a>
+        <button @click="toggleCart" id="cartIcon" class="btn"><img src="./assets/cart.svg" width="35"> </button>
+    </nav>
+    <div class="d-flex justify-content-center"><h1>Now Playing</h1></div>
   </header>
 
-  <RouterView />
+  <div class="d-flex flex-column-reverse flex-lg-row">
+    <HomeView :adultCountObj='adultCountObj' :childCountObj='childCountObj' @updateCount='updateCount' class="flex-grow-1"></HomeView>
+    <Cart @updateCount='updateCount' v-if="showCart" :adultCountObj="adultCountObj" :childCountObj="childCountObj"></Cart>
+  </div>
+  
   
 </template>
 
@@ -50,13 +73,6 @@ nav {
   font-size: 12px;
 }
 
-nav a.router-link-exact-active {
-  color: var(--text-color);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
 
 nav a {
   color: var(--text-gold);

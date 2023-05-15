@@ -1,6 +1,7 @@
 <script setup>
   import CardsView from '../components/CardStack.vue'
   import axios from 'axios';
+  import cart from '../components/ShoppingCart.vue'
 </script>
 
 <script>
@@ -11,13 +12,32 @@
     }
   },
   methods: {
+    updateCount(adult, child)
+    {
+      this.$emit('updateCount', adult, child);
+    }
+  },
+  props: {
+    adultCountObj: {
+      type: Object,
+      default: {
 
+      }
+  },
+    childCountObj: {
+      type: Object,
+      default: {
+
+      }
+    }
   }
 }
 </script>
 <template>
-  <main>
-    <CardsView></CardsView>
-  </main>
+  <div>
+    <main>
+      <CardsView @updateCount='updateCount'></CardsView>
+    </main>
+  </div>
 </template>
 
