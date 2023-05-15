@@ -5,18 +5,22 @@ import { toHandlers } from 'vue';
 export default {
     data(){
         return {
-            adultPrice: 6.99,
-            childPrice: 3.99
+            adultPrice: 6.99, // price for an adult ticket
+            childPrice: 3.99 // price for a child ticket
         }
     },
     props: {
-        adultCountObj: {
+        adultCountObj: 
+        // take the adult count-tracking object as a prop
+        {
             type: Object,
             default: {
                 
             }
         },
-        childCountObj: {
+        childCountObj:
+        // take the child count-tracking object as a prop
+        {
             type: Object,
             default: {
                 
@@ -25,25 +29,32 @@ export default {
     },
     methods: {
         decrementTicket(obj, key)
+        // decrement the objects value at the key in the component (countObj, moviename) send an event up the chain with both new objects
         {
             obj[key]--;
             this.$emit("updateCount", this.adultCountObj, this.childCountObj);
         },
         incrementTicket(obj, key)
+        // increment the objects value at the key in the component (countObj, moviename) send an event up the chain with both new objects
         {
             obj[key]++;
             this.$emit("updateCount", this.adultCountObj, this.childCountObj);
         },
         deleteTicket(obj, key)
+        // set the objects value at the key in the component (countObj, moviename) to zero send an event up the chain with both new objects
         {
             obj[key] = 0;
             this.$emit("updateCount", this.adultCountObj, this.childCountObj);
         },
     },
-    computed: {
+    computed:
+    // these computed values are derived from our props to make total prices available
+    {
         totalAdultPrice()
         {
             var totalPrice = 0;
+
+            // loop through all the objects value, multiplying for price and adding to the sum
             Object.values(this.adultCountObj).forEach(value => {
                 totalPrice += (value * 6.99);
             })
@@ -52,15 +63,19 @@ export default {
         totalChildPrice()
         {
             var totalPrice = 0;
+
+            // loop through all the objects value, multiplying for price and adding to the sum
             Object.values(this.childCountObj).forEach(value => {
                 totalPrice += (value * 3.99);
             })
             return totalPrice;
         },
         totalPrice(){
+            // add the total prices together
             return this.totalAdultPrice + this.totalChildPrice;
         },
         totalTickets()
+        // loop through all of both objects values and adding to the sum
         {
             var tickets = 0;
             Object.values(this.adultCountObj).forEach(value => {
@@ -80,13 +95,18 @@ export default {
         <h2>Adult Tickets</h2>
         <hr>
         <table>
+            <!-- v-for can loop through objects and even provide a key as a second parameter -->
             <tbody v-for="(item, key) in adultCountObj">
+                <!-- dont render if the count is 0 or less -->
                 <tr v-if="item > 0">
+                    <!-- On click, delete these tickets -->
                     <td><a class="delete" @click="deleteTicket(this.adultCountObj, key)">X</a></td>
                     <td>{{ key }}</td>
                     <td> {{ item }} / Tickets</td>
                     <td> {{ "$" + (item * adultPrice) }}</td>
+                    <!-- On click, decrement these tickets-->
                     <td><button class="btn btn-danger" @click="decrementTicket(adultCountObj, key)">-</button></td>
+                    <!-- On click, increment these tickets-->
                     <td><button class="btn btn-primary" @click="incrementTicket(adultCountObj, key)">+</button></td>
                 </tr>
             </tbody>
@@ -101,13 +121,18 @@ export default {
         <h2>Child Tickets</h2>
         <hr>
         <table>
+            <!-- v-for can loop through objects and even provide a key as a second parameter -->
             <tbody v-for="(item, key) in childCountObj">
+                <!-- dont render if the count is 0 or less -->
                 <tr v-if="item > 0">
+                    <!-- On click, delete these tickets -->
                     <td><a class="delete" @click="deleteTicket(this.childCountObj, key)">X</a></td>
                     <td>{{ key }}</td>
                     <td>{{ item }} / Tickets</td>
                     <td> {{ "$" + (item * childPrice) }}</td>
+                    <!-- On click, decrement these tickets-->
                     <td><button class="btn btn-danger" @click="decrementTicket(childCountObj, key)">-</button></td>
+                    <!-- On click, increment these tickets-->
                     <td><button class="btn btn-primary" @click="incrementTicket(childCountObj, key)">+</button></td>
                 </tr>
             </tbody>

@@ -18,6 +18,7 @@ import HomeView from './views/HomeView.vue'
     },
     methods: {
       toggleCart()
+      // function to flip the flag that hides the cart
       {
         if(this.showCart)
         {
@@ -29,6 +30,7 @@ import HomeView from './views/HomeView.vue'
       },
       updateCount(adult, child)
       {
+        // updates the local count objects
         this.adultCountObj = adult;
         this.childCountObj = child;
       }
@@ -39,13 +41,16 @@ import HomeView from './views/HomeView.vue'
   <header>
     <nav>
         <a class="display-6" id="nameLink">Z-Movies</a>
+        <!-- toggle cart on click -->
         <button @click="toggleCart" id="cartIcon" class="btn"><img src="./assets/cart.svg" width="35"> </button>
     </nav>
     <div class="d-flex justify-content-center"><h1>Now Playing</h1></div>
   </header>
 
   <div class="d-flex flex-column-reverse flex-lg-row">
+    <!-- HomeView recieves the count objects and will trigger updateCount when it sends the event of the same name -->
     <HomeView :adultCountObj='adultCountObj' :childCountObj='childCountObj' @updateCount='updateCount' class="flex-grow-1"></HomeView>
+    <!-- Cart only renders when showCart is true, recieves the count objects and will trigger updateCount when it sends the event of the same name -->
     <Cart @updateCount='updateCount' v-if="showCart" :adultCountObj="adultCountObj" :childCountObj="childCountObj"></Cart>
   </div>
   

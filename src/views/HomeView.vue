@@ -14,6 +14,7 @@
   methods: {
     updateCount(adult, child)
     {
+      // when there is an update to the counts, send it up the chain
       this.$emit('updateCount', adult, child);
     }
   },
@@ -36,6 +37,7 @@
 <template>
   <div>
     <main>
+    <!-- Update HomeView's count objects on update in the Cardsvie -->
       <CardsView @updateCount='updateCount'></CardsView>
     </main>
   </div>
