@@ -1,6 +1,6 @@
 # ZMovies
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a movie ticket ordering frontend
 
 ## Recommended IDE Setup
 
